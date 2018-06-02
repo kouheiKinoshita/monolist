@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'rankings/want'
+
+  get 'ownerships/create'
+
+  get 'ownerships/destroy'
+
  root to: "toppages#index"
 
  get "login", to: "sessions#new"
@@ -11,6 +17,9 @@ Rails.application.routes.draw do
   get "signup", to: "users#new"
   resources :users, only: [:show, :new, :create]
   
-  resources :items, only: [:new]
+  resources :items, only: [:show, :new]
+  resources :ownerships, only: [:create, :destroy]
+  
+  get "rankings/want", to: "rankings#want"
   
 end

@@ -13,26 +13,15 @@ class ItemsController < ApplicationController
       })
       
       results.each do |result|
-        item = Item.new(read(result))
+        item = Item.find_or_initialize_by(read(result))
         @items << item #itemを[]に追加していく
       end
     end  
   end
   
-  private
-  
-  def read(result)
-    code = result["itemCode"]
-    name = result["itemName"]
-    url = result["itemUrl"]
-    image_url = result["mediumImageUrls"].first["imageUrl"].gsub("?_ex=128x128", "")
-    #gsubは第一引数を第二引数に置換するメソッド-> 画像を削除
-    
-    return {
-      code: code,
-      name: name,
-      url: url,
-      image_url: image_url,
-    }
+  def show
+    @item = Item.find(params[:id])
+    @want_users = @item.want_users
+    @have_users = @item.have_users
   end
 end
